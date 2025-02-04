@@ -17,6 +17,17 @@ function getHumanChoice() {
   }
 }
 
+function getWinner(humanChoice, computerChoice) {
+  if (computerChoice === humanChoice) return "tie";
+  else if (
+    (humanChoice === "rock" && computerChoice === "scissors") ||
+    (humanChoice === "paper" && computerChoice === "rock") ||
+    (humanChoice === "scissors" && computerChoice === "paper")
+  )
+    return "human";
+  else return "computer";
+}
+
 /*
 Rock Paper Scissor Pseudo-code
 
