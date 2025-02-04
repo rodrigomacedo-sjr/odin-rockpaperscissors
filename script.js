@@ -1,5 +1,12 @@
 console.log("Hello, World!");
 
+function getComputerChoice() {
+  let randomNumber = Math.floor(Math.random() * 3);
+  if (randomNumber === 0) return 'rock';
+  if (randomNumber === 1) return 'paper';
+  if (randomNumber === 2) return 'scissors';
+}
+
 /*
 Rock Paper Scissor Pseudo-code
 
@@ -75,7 +82,6 @@ playAgain
   if the user input matches [y, yes] case insensitive
     humanScore = 0
     computerScore = 0
-    playGame
   else
     show 'thanks for playing'
 */
