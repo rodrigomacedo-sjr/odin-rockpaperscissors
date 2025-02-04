@@ -1,5 +1,8 @@
 console.log("Hello, World!");
 
+let humanScore = 0;
+let computerScore = 0;
+
 function getComputerChoice() {
   let randomNumber = Math.floor(Math.random() * 3);
   if (randomNumber === 0) return "rock";
@@ -26,6 +29,16 @@ function getWinner(humanChoice, computerChoice) {
   )
     return "human";
   else return "computer";
+}
+
+function resetScores() {
+  humanScore = 0;
+  computerScore = 0;
+}
+
+function updateScores(winner) {
+  if (winner === "human") humanScore += 1;
+  if (winner === "computer") computerScore += 1;
 }
 
 /*
@@ -61,7 +74,6 @@ getHumanChoice
   if the user input matches one of the valid choices case insensitive
     return rock paper or scissor accordingly
     
-
 getComputerChoice
   random number between 1 and 3 inclusive
   return rock, paper or scissors accordingly
