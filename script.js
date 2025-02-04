@@ -38,7 +38,19 @@ function resetScores() {
 
 function updateScores(winner) {
   if (winner === "human") humanScore += 1;
-  if (winner === "computer") computerScore += 1;
+  else if (winner === "computer") computerScore += 1;
+}
+
+function displayScores() {
+  console.log(`Human : ${humanScore} - ${computerScore} : Computer`);
+}
+
+function showResults() {
+  if (humanScore > computerScore)
+    console.log("Congratulations human, you win!");
+  else if (computerScore > humanScore)
+    console.log("Oh no! Better luck next time!");
+  else console.log("Yonks! That was a tie!");
 }
 
 /*
@@ -98,10 +110,10 @@ updateScore, winner as a paremeter
     computerScore += 1
   return
 
-displayScore, scores as a parameter
+displayScore
   Human : humanScore - computerScore : Computer
 
-showResult, scores as a parameter
+showResult
   if human won
     show 'congratulation human!'
   if computer won
