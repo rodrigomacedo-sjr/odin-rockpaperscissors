@@ -53,6 +53,24 @@ function showResults() {
   else console.log("Yonks! That was a tie!");
 }
 
+function playRound() {
+  let humanChoice = getHumanChoice();
+  let computerChoice = getComputerChoice();
+
+  displayRound(humanChoice, computerChoice);
+
+  return getWinner(humanChoice, computerChoice);
+}
+
+function displayRound(humanChoice, computerChoice) {
+  console.log(`Human choose: ${humanChoice}`);
+  console.log(`Computer choose: ${computerChoice}`);
+}
+
+function displayWinner(winner) {
+  console.log(`Winner of the round was: ${winner.toUpperCase()}`);
+}
+
 /*
 Rock Paper Scissor Pseudo-code
 
@@ -64,6 +82,7 @@ playGame
   resetScores
   loop 5 times
     playRound
+    displayWinner
     updateScore
     displayScore
   showResult
@@ -77,7 +96,15 @@ playRound
   humanChoice is getHumanChoice
   computerChoice is getComputerChoice
 
+  displayRound 
+
   return getWinner, passing choices as parameter
+
+displayRound
+  display choices
+
+displayWinner
+  display winner
 
 getHumanChoice
   loop forever
