@@ -2,9 +2,19 @@ console.log("Hello, World!");
 
 function getComputerChoice() {
   let randomNumber = Math.floor(Math.random() * 3);
-  if (randomNumber === 0) return 'rock';
-  if (randomNumber === 1) return 'paper';
-  if (randomNumber === 2) return 'scissors';
+  if (randomNumber === 0) return "rock";
+  if (randomNumber === 1) return "paper";
+  if (randomNumber === 2) return "scissors";
+}
+
+function getHumanChoice() {
+  while (true) {
+    let answer = prompt("Rock, paper or scissors?").toLowerCase();
+    if (answer === "rock" || answer === "paper" || answer === "scissors")
+      return answer;
+
+    alert("Please comply");
+  }
 }
 
 /*
