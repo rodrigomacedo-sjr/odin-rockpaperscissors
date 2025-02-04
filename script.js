@@ -1,7 +1,22 @@
-console.log("Hello, World!");
-
 let humanScore = 0;
 let computerScore = 0;
+
+playGames();
+
+function playGames() {
+  while (playAgain()) {
+    resetScores();
+    for (let i = 0; i < 5; i++) {
+      displayHeader(i);
+      let roundWinner = playRound();
+      displayWinner(roundWinner);
+      updateScores(roundWinner);
+      displayScores();
+    }
+    showResults();
+  }
+  console.log("Thanks for playing!");
+}
 
 function getComputerChoice() {
   let randomNumber = Math.floor(Math.random() * 3);
@@ -69,6 +84,16 @@ function displayRound(humanChoice, computerChoice) {
 
 function displayWinner(winner) {
   console.log(`Winner of the round was: ${winner.toUpperCase()}`);
+}
+
+function playAgain() {
+  let answer = prompt("Do you want to start a new game?").toLowerCase();
+  if (answer === "y" || answer === "yes") return true;
+  else return false;
+}
+
+function displayHeader(roundNumber) {
+  console.log(`--- ROUND ${roundNumber + 1} ---`);
 }
 
 /*
