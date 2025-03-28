@@ -1,17 +1,26 @@
 let humanScore = 0;
 let computerScore = 0;
 
+const MAX_POINTS = 5;
+
 playGames();
 
 function playGames() {
   while (playAgain()) {
     resetScores();
-    for (let i = 0; i < 5; i++) {
-      displayHeader(i);
+    let currentRound = 1;
+    while (true) {
+      displayHeader(currentRound);
       let roundWinner = playRound();
       displayWinner(roundWinner);
       updateScores(roundWinner);
       displayScores();
+
+      currentRound += 1;
+
+      if (humanScore >= MAX_POINTS || computerScore >= MAX_POINTS) {
+        break;
+      }
     }
     showResults();
   }
@@ -93,7 +102,5 @@ function playAgain() {
 }
 
 function displayHeader(roundNumber) {
-  console.log(`--- ROUND ${roundNumber + 1} ---`);
+  console.log(`--- ROUND ${roundNumber} ---`);
 }
-
-
