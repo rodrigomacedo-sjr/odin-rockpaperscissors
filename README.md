@@ -1,6 +1,6 @@
 # New, UI version
 ## TODO
-1. Remove logic that plays exactly five rounds.
+- [x] 1. Remove logic that plays exactly five rounds.
 2. Create three buttons, one for each selection. Add an event listener to the buttons that calls the `playRound` function with the correct `playerSelection`.
 3. Add a `div` for displaying results. Change `console.log`s into DOM methods.
 4. Display the running score, and announce a winner once one player reaches 5 points.

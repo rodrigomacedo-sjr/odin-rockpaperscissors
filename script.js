@@ -1,30 +1,70 @@
 let humanScore = 0;
 let computerScore = 0;
+let currentRound = 1;
 
 const MAX_POINTS = 5;
 
-playGames();
+const ROCK_EMOJI = "🪨";
+const PAPER_EMOJI = "📄";
+const SCISSORS_EMOJI = "✂️";
 
-function playGames() {
-  while (playAgain()) {
-    resetScores();
-    let currentRound = 1;
-    while (true) {
-      displayHeader(currentRound);
-      let roundWinner = playRound();
-      displayWinner(roundWinner);
-      updateScores(roundWinner);
-      displayScores();
+let buttons = document.querySelector("#buttons");
 
-      currentRound += 1;
+buttons.addEventListener("click", function(e) {
+  let roundWinner;
 
-      if (humanScore >= MAX_POINTS || computerScore >= MAX_POINTS) {
-        break;
-      }
-    }
+  switch (e.target.innerText) {
+    case ROCK_EMOJI:
+      roundWinner = playRound("rock");
+      break;
+    case PAPER_EMOJI:
+      roundWinner = playRound("paper");
+      break;
+    case SCISSORS_EMOJI:
+      roundWinner = playRound("scissors");
+      break;
+    default:
+      return;
+  }
+
+  displayWinner(roundWinner);
+  updateScores(roundWinner);
+  displayScores();
+  displayHeader();
+
+  if (someoneWon()) {
     showResults();
   }
-  console.log("Thanks for playing!");
+});
+
+let restartButton = document.querySelector("#restartButton");
+
+restartButton.addEventListener("click", () => {
+  humanScore = 0;
+  computerScore = 0;
+  currentRound = 1;
+  displayScores();
+  displayHeader();
+  clearExtras();
+});
+
+function someoneWon() {
+  return humanScore >= MAX_POINTS || computerScore >= MAX_POINTS;
+}
+
+function clearExtras() {
+  let log = document.querySelector("#log");
+  log.textContent = ``;
+
+  let result = document.querySelector("#round-result");
+  result.textContent = ``;
+
+  let endCard = document.querySelector("#end-card");
+  endCard.classList.remove("human-won");
+  endCard.classList.remove("computer-won");
+
+  let endText = document.querySelector("#end-text");
+  endText.textContent = "";
 }
 
 function getComputerChoice() {
@@ -34,18 +74,8 @@ function getComputerChoice() {
   if (randomNumber === 2) return "scissors";
 }
 
-function getHumanChoice() {
-  while (true) {
-    let answer = prompt("Rock, paper or scissors?").toLowerCase();
-    if (answer === "rock" || answer === "paper" || answer === "scissors")
-      return answer;
-
-    alert("Please comply");
-  }
-}
-
 function getWinner(humanChoice, computerChoice) {
-  if (computerChoice === humanChoice) return "tie";
+  if (computerChoice === humanChoice) return "none";
   else if (
     (humanChoice === "rock" && computerChoice === "scissors") ||
     (humanChoice === "paper" && computerChoice === "rock") ||
@@ -66,19 +96,36 @@ function updateScores(winner) {
 }
 
 function displayScores() {
-  console.log(`Human : ${humanScore} - ${computerScore} : Computer`);
+  let playerScore = document.querySelector("#player-score");
+  let enemyScore = document.querySelector("#computer-score");
+  playerScore.textContent = `You: ${humanScore}`;
+  enemyScore.textContent = `Computer: ${computerScore}`;
 }
 
 function showResults() {
-  if (humanScore > computerScore)
-    console.log("Congratulations human, you win!");
-  else if (computerScore > humanScore)
-    console.log("Oh no! Better luck next time!");
-  else console.log("Yonks! That was a tie!");
+  if (humanScore > computerScore) humanWon();
+  else computerWon();
 }
 
-function playRound() {
-  let humanChoice = getHumanChoice();
+function humanWon() {
+  let endCard = document.querySelector("#end-card");
+  endCard.classList.toggle("human-won");
+
+  let endText = document.querySelector("#end-text");
+  endText.textContent = "Congratulations human, you win!";
+}
+
+function computerWon() {
+  let endCard = document.querySelector("#end-card");
+  endCard.classList.toggle("computer-won");
+
+  let endText = document.querySelector("#end-text");
+  endText.textContent = "Oh no! Better luck next time!";
+}
+
+function playRound(humanChoice) {
+  currentRound++;
+
   let computerChoice = getComputerChoice();
 
   displayRound(humanChoice, computerChoice);
@@ -87,12 +134,23 @@ function playRound() {
 }
 
 function displayRound(humanChoice, computerChoice) {
-  console.log(`Human choose: ${humanChoice}`);
-  console.log(`Computer choose: ${computerChoice}`);
+  let log = document.querySelector("#log");
+  log.textContent = `${humanChoice} x ${computerChoice}`;
 }
 
 function displayWinner(winner) {
-  console.log(`Winner of the round was: ${winner.toUpperCase()}`);
+  let roundResult = document.querySelector("#round-result");
+  switch (winner) {
+    case "none":
+      roundResult.textContent = `TIE`;
+      break;
+    case "human":
+      roundResult.textContent = `WIN`;
+      break;
+    case "computer":
+      roundResult.textContent = `LOSS`;
+      break;
+  }
 }
 
 function playAgain() {
@@ -101,6 +159,7 @@ function playAgain() {
   else return false;
 }
 
-function displayHeader(roundNumber) {
-  console.log(`--- ROUND ${roundNumber} ---`);
+function displayHeader() {
+  let roundNumber = document.querySelector("#round-number");
+  roundNumber.textContent = `${currentRound}`;
 }
