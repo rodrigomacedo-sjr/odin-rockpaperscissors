@@ -11,21 +11,11 @@ const SCISSORS_EMOJI = "✂️";
 let buttons = document.querySelector("#buttons");
 
 buttons.addEventListener("click", function(e) {
-  let roundWinner;
+  let humanChoice = String(e.target.innerText);
 
-  switch (e.target.innerText) {
-    case ROCK_EMOJI:
-      roundWinner = playRound("rock");
-      break;
-    case PAPER_EMOJI:
-      roundWinner = playRound("paper");
-      break;
-    case SCISSORS_EMOJI:
-      roundWinner = playRound("scissors");
-      break;
-    default:
-      return;
-  }
+  if (humanChoice.length != 2) return;
+
+  let roundWinner = playRound(humanChoice);
 
   displayWinner(roundWinner);
   updateScores(roundWinner);
@@ -60,26 +50,26 @@ function clearExtras() {
   result.textContent = ``;
 
   let endCard = document.querySelector("#end-card");
-  endCard.classList.remove("human-won");
-  endCard.classList.remove("computer-won");
+  endCard.style.visibility = "hidden"
 
   let endText = document.querySelector("#end-text");
   endText.textContent = "";
+
 }
 
 function getComputerChoice() {
   let randomNumber = Math.floor(Math.random() * 3);
-  if (randomNumber === 0) return "rock";
-  if (randomNumber === 1) return "paper";
-  if (randomNumber === 2) return "scissors";
+  if (randomNumber === 0) return ROCK_EMOJI;
+  if (randomNumber === 1) return PAPER_EMOJI;
+  if (randomNumber === 2) return SCISSORS_EMOJI;
 }
 
 function getWinner(humanChoice, computerChoice) {
   if (computerChoice === humanChoice) return "none";
   else if (
-    (humanChoice === "rock" && computerChoice === "scissors") ||
-    (humanChoice === "paper" && computerChoice === "rock") ||
-    (humanChoice === "scissors" && computerChoice === "paper")
+    (humanChoice === ROCK_EMOJI && computerChoice === SCISSORS_EMOJI) ||
+    (humanChoice === PAPER_EMOJI && computerChoice === ROCK_EMOJI) ||
+    (humanChoice === SCISSORS_EMOJI && computerChoice === PAPER_EMOJI)
   )
     return "human";
   else return "computer";
@@ -99,7 +89,7 @@ function displayScores() {
   let playerScore = document.querySelector("#player-score");
   let enemyScore = document.querySelector("#computer-score");
   playerScore.textContent = `You: ${humanScore}`;
-  enemyScore.textContent = `Computer: ${computerScore}`;
+  enemyScore.textContent = `Him: ${computerScore}`;
 }
 
 function showResults() {
@@ -109,7 +99,7 @@ function showResults() {
 
 function humanWon() {
   let endCard = document.querySelector("#end-card");
-  endCard.classList.toggle("human-won");
+  endCard.style.visibility = "visible";
 
   let endText = document.querySelector("#end-text");
   endText.textContent = "Congratulations human, you win!";
@@ -117,7 +107,7 @@ function humanWon() {
 
 function computerWon() {
   let endCard = document.querySelector("#end-card");
-  endCard.classList.toggle("computer-won");
+  endCard.style.visibility = "visible";
 
   let endText = document.querySelector("#end-text");
   endText.textContent = "Oh no! Better luck next time!";
@@ -143,20 +133,17 @@ function displayWinner(winner) {
   switch (winner) {
     case "none":
       roundResult.textContent = `TIE`;
+      roundResult.style.color = "black";
       break;
     case "human":
       roundResult.textContent = `WIN`;
+      roundResult.style.color = "green";
       break;
     case "computer":
       roundResult.textContent = `LOSS`;
+      roundResult.style.color = "red";
       break;
   }
-}
-
-function playAgain() {
-  let answer = prompt("Do you want to start a new game?").toLowerCase();
-  if (answer === "y" || answer === "yes") return true;
-  else return false;
 }
 
 function displayHeader() {
